@@ -741,12 +741,14 @@ install(FILES "${Ceres_BINARY_DIR}/CeresConfigVersion.cmake"
               "${Ceres_SOURCE_DIR}/cmake/FindGflags.cmake"
         DESTINATION ${RELATIVE_CMAKECONFIG_INSTALL_DIR})
 
-# Create an uninstall target to remove all installed files.
-configure_file("${Ceres_SOURCE_DIR}/cmake/uninstall.cmake.in"
-               "${Ceres_BINARY_DIR}/cmake/uninstall.cmake"
-               @ONLY)
-add_custom_target(uninstall
-                  COMMAND ${CMAKE_COMMAND} -P ${Ceres_BINARY_DIR}/cmake/uninstall.cmake)
+if(NOT TARGET uninstall)
+  # Create an uninstall target to remove all installed files.
+  configure_file("${Ceres_SOURCE_DIR}/cmake/uninstall.cmake.in"
+                 "${Ceres_BINARY_DIR}/cmake/uninstall.cmake"
+                 @ONLY)
+  add_custom_target(uninstall
+                    COMMAND ${CMAKE_COMMAND} -P ${Ceres_BINARY_DIR}/cmake/uninstall.cmake)
+endif()
 
 # Install method #2: Put Ceres build into local CMake registry.
 #
